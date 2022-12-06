@@ -2,6 +2,7 @@ import React from "react";
 import Login from './tabs/login';
 import First from "./tabs/first";
 import { Route, BrowserRouter, Switch } from "react-router-dom";
+import { listMenu } from "./tabs/listMenu";
 
 function App() {
   return (
@@ -9,10 +10,8 @@ function App() {
      
      <BrowserRouter>
           <Switch>
-            <Route exact path="/"><Login /></Route>
-            <Route path="/first"><First/></Route> 
-            
-            
+             <Route exact path="/"><Login/></Route> 
+             <Route path="/first"><First/></Route>
           </Switch>
         </BrowserRouter>
      

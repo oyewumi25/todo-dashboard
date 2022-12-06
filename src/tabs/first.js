@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
-import {  UserOutlined ,MenuFoldOutlined,HomeOutlined,TeamOutlined } from '@ant-design/icons';
+import {  UserOutlined ,FormOutlined ,HomeOutlined,TeamOutlined } from '@ant-design/icons';
 import {  Layout, Menu } from 'antd';
+import { Link, Route } from 'react-router-dom';
 import 'antd/dist/antd.css'
+import { listMenu } from './listMenu';
+import { Redirect } from 'react-router-dom';
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
   return {
@@ -12,16 +15,16 @@ function getItem(label, key, icon, children) {
   };
 }
 const items = [
-  getItem('Dashboard', '1', <HomeOutlined />),
-    getItem('User', 'sub1', <UserOutlined />, [
-      getItem('Utilisateur', '3'),
-      getItem('', '4'),
+  getItem('Dashboard', '', <HomeOutlined />),
+  getItem('User', 'user',<UserOutlined />, [getItem('actif', 'actif-user'), getItem('inactif', 'inactif-user'),
       
     ]),
-    getItem('Todo', 'sub2',<MenuFoldOutlined/>, [getItem('actif', '6'), getItem('inactif', '8'),
+    getItem('Todo', 'todo',<FormOutlined />, [getItem('achieved', 'achieved-todo'), getItem('unachieved', 'unachieved-todo'),
+  ]),
+   
+    getItem('Administrateur', 'admin',<TeamOutlined/>, [getItem('actif', 'actif-admin'), getItem('inactif', 'inactif-admin'),
     ]),
-    getItem('Administrateur', 'sub2',<TeamOutlined/>, [getItem('actif', '6'), getItem('inactif', '8'),
-    ]),
+
 ];
  class First extends Component {
 
@@ -38,7 +41,12 @@ const items = [
   
         <div style={{ height: 88}}></div>
         
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} items={items} />
+        <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} items={items} onClick={e=>{
+          if(e.key === "") {
+            return window.location.href ="/first";
+          }
+          return window.location.href ="/first/"+e.key;
+        }}/>
       </Sider>
       <Layout className="site-layout">
         <Header
@@ -60,7 +68,11 @@ const items = [
               minHeight: 360,
             }}
           >
-           
+           {listMenu.map(e=>(
+                <Route exact path={e.path} key={e.path} component={e.component}/>
+                
+                
+              ))}   
           </div>
         </Content>
         <Footer
@@ -78,7 +90,3 @@ const items = [
   }
 }
 export default First
-
-
-
-
