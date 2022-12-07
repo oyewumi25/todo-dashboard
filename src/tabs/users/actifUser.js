@@ -3,6 +3,8 @@ import { SearchOutlined } from "@ant-design/icons";
 import React, { Component } from "react";
 import Axios from "axios";
 import Highlighter from "react-highlight-words";
+import {base_url,getAllUser} from "../../constants/url"
+
 import { connect } from "react-redux";
 import { openNotification } from "../../functions/notification";
 
@@ -14,7 +16,20 @@ class actifUser extends Component {
     data: []
   };
 
+  componentDidMount() {
+    this.fetchData();
+  }
 
+  fetchData = async () => {
+    await Axios.get(base_url + getAllUser)
+      .then((res) => {
+        console.log(res.data.users);
+        this.setState({ data: res.data.users });
+      })
+      .catch((err) => {
+        return openNotification("error", err?.response?.data?.message);
+      });
+  };
 
   handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -166,17 +181,7 @@ class actifUser extends Component {
           </Tag>
         )
       },
-      {
-        title: "password",
-        dataIndex: "password",
-        ...getColumnSearchProps("password"),
-        render: (text) => (
-          <Tag color="red">
-            <b>{text}</b>
-          </Tag>
-        )
-      },
-      {
+     {
         title: "status",
         dataIndex: "status",
         ...getColumnSearchProps("status"),

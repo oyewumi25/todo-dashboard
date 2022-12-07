@@ -46,7 +46,7 @@ class InactifAdmin extends Component {
             placeholder={`Search ${dataIndex}`}
             value={selectedKeys[0]}
             onChange={(e) =>
-              setSelectedKeys(e.target.value ? [e.target.value] : [])
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
             }
             onPressEnter={() =>
               this.handleSearch(selectedKeys, confirm, dataIndex)
