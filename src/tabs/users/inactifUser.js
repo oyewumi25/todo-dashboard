@@ -2,6 +2,7 @@ import { Table, PageHeader, Tag, Button, Input, Space } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import React, { Component } from "react";
 import Axios from "axios";
+import {base_url,getAllUserInactif} from "../../constants/url"
 import Highlighter from "react-highlight-words";
 import { connect } from "react-redux";
 import { openNotification } from "../../functions/notification";
@@ -14,7 +15,20 @@ class inactifUser extends Component {
     data: []
   };
 
+  componentDidMount() {
+    this.fetchData();
+  }
 
+  fetchData = async () => {
+    await Axios.get(base_url + getAllUserInactif)
+      .then((res) => {
+        console.log(res.data.users);
+        this.setState({ data: res.data.users });
+      })
+      .catch((err) => {
+        return openNotification("error", err?.response?.data?.message);
+      });
+  };
 
   handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();

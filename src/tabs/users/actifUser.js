@@ -3,8 +3,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import React, { Component } from "react";
 import Axios from "axios";
 import Highlighter from "react-highlight-words";
-import {base_url,getAllUser} from "../../constants/url"
-
+import {base_url,getAllUserActif} from "../../constants/url"
 import { connect } from "react-redux";
 import { openNotification } from "../../functions/notification";
 
@@ -21,7 +20,7 @@ class actifUser extends Component {
   }
 
   fetchData = async () => {
-    await Axios.get(base_url + getAllUser)
+    await Axios.get(base_url + getAllUserActif)
       .then((res) => {
         console.log(res.data.users);
         this.setState({ data: res.data.users });

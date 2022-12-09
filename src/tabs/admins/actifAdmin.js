@@ -2,6 +2,7 @@ import { Table, PageHeader, Tag, Button, Input, Space } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import React, { Component } from "react";
 import Axios from "axios";
+import {base_url,getAllAdminActif} from "../../constants/url"
 import Highlighter from "react-highlight-words";
 import { connect } from "react-redux";
 import { openNotification } from "../../functions/notification";
@@ -21,7 +22,21 @@ class InactifAdmin extends Component {
       searchedColumn: dataIndex
     });
   };
-
+  
+  componentDidMount() {
+    this.fetchData();
+  }
+  
+  fetchData = async () => {
+    await Axios.get(base_url + getAllAdminActif)
+      .then((res) => {
+        console.log(res.data.todos);
+        this.setState({ data: res.data.todo});
+      })
+      .catch((err) => {
+        return openNotification("error", err?.response?.data?.message);
+      });
+  };
   handleReset = (clearFilters) => {
     clearFilters();
     this.setState({

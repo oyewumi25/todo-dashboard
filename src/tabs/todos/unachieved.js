@@ -2,6 +2,7 @@ import { Table, PageHeader, Tag, Button, Input, Space } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import React, { Component } from "react";
 import Axios from "axios";
+import {base_url,getAllTodonotAchieved} from "../../constants/url"
 import Highlighter from "react-highlight-words";
 import { connect } from "react-redux";
 import { openNotification } from "../../functions/notification";
@@ -14,7 +15,20 @@ class Unachieved extends Component {
     data: []
   };
 
- 
+  componentDidMount() {
+    this.fetchData();
+  }
+
+  fetchData = async () => {
+    await Axios.get(base_url + getAllTodonotAchieved)
+      .then((res) => {
+        console.log(res.data.todo);
+        this.setState({ data: res.data.todo });
+      })
+      .catch((err) => {
+        return openNotification("error", err?.response?.data?.message);
+      });
+  };
 
   handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -150,12 +164,7 @@ class Unachieved extends Component {
         ...getColumnSearchProps("description")
       },
 
-      {
-        title: "unachieved",
-        dataIndex: "unachieved",
-        ...getColumnSearchProps("unachieved")
-      },
-
+     
      
     ];
 

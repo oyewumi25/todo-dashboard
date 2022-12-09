@@ -3,6 +3,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import React, { Component } from "react";
 import Axios from "axios";
 import Highlighter from "react-highlight-words";
+import {base_url,getAllAdminInactif} from "../../constants/url"
 import { connect } from "react-redux";
 import { openNotification } from "../../functions/notification";
 
@@ -12,6 +13,21 @@ class InactifAdmin extends Component {
     searchedColumn: "",
     searchInput: React.createRef(null),
     data: []
+  };
+
+  componentDidMount() {
+    this.fetchData();
+  }
+  
+  fetchData = async () => {
+    await Axios.get(base_url + getAllAdminInactif)
+      .then((res) => {
+        console.log(res.data.todos);
+        this.setState({ data: res.data.todo});
+      })
+      .catch((err) => {
+        return openNotification("error", err?.response?.data?.message);
+      });
   };
 
   handleSearch = (selectedKeys, confirm, dataIndex) => {
